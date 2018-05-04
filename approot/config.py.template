@@ -1,0 +1,38 @@
+"""
+Template for config file.
+Create config.py inside approot directory based on this.
+"""
+
+class BaseConfig(object):
+    SECRET_KEY = 'development key'
+    DEBUG = False
+    TESTING = False
+
+    # SQLAlchemy (http://pythonhosted.org/Flask-SQLAlchemy/)
+    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/word.db'
+
+    AUDIO_DIR = 'audio'
+
+
+class DevConfig(BaseConfig):
+    DEBUG = True
+    SQLALCHEMY_ECHO = True
+
+    # If you want to use sqlite, do nothing. Else, config URI for your local database.
+    # SQLALCHEMY_DATABASE_URI = 'dialect+driver://username:password@host:port/database'
+
+
+class ProdConfig(BaseConfig):
+    SECRET_KEY = 'Replace with a secure key'
+    # Config URI for production database
+    # SQLALCHEMY_DATABASE_URI = 'dialect+driver://username:password@host:port/database'
+    pass
+
+
+class TestConfig(BaseConfig):
+    TESTING = True
+    SQLALCHEMY_ECHO = True
+
+    # If you want to use sqlite, do nothing. else, config URI for test database.
+    # SQLALCHEMY_DATABASE_URI = 'dialect+driver://username:password@host:port/database'

@@ -1,0 +1,7 @@
+*~
+*.pyc
+*.log
+.coverage
+/codereport
+/env
+/logs

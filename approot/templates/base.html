@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {% block style_extra %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Apollo</a>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+
+    </div>
+    <div class="container">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+      {% endblock %}
+      vincent@bluej.cc
+    </div>
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    {% block script_extra %}{% endblock %}
+    <!-- End Scripts -->
+  </body>
+</html>

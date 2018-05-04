@@ -1,0 +1,17 @@
+Apollo v0.1
+==============
+
+Simple Music Generator.
+
+
+## Quick start - set up development environment
+
+- cd into project root
+- $ source bin/init_env.sh
+- $ cp approot/config.py.template approot/config.py
+- Modify approot/config.py as neccessary
+
+
+Run local server
+- $ bin/manage.py runserver
+  Optional argument: --config or -c [development|production|test]
