@@ -15,3 +15,8 @@ Simple Music Generator.
 Run local server
 - $ bin/manage.py runserver
   Optional argument: --config or -c [development|production|test]
+
+## Many thanks to the authors of various libraries at
+
+- https://github.com/gasman/jasmid
+- https://github.com/mudcube/MIDI.js
