@@ -8,11 +8,18 @@
 
 {% block script_extra %}
 <script src="{{ url_for('static', filename='js/bootstrap-switch.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/inc/jasmid.js') }}"></script>
+<script src="{{ url_for('static', filename='js/inc/shim.js') }}"></script>
+<script src="{{ url_for('static', filename='js/inc/midi.js') }}"></script>
+<script src="{{ url_for('static', filename='js/generator.js') }}"></script>
+
 {% endblock script_extra%}
 
 {% block content %}
 <h3>Simple Music Generator</h3>
 <br>
+  <a href="javascript:void(MIDI.Player.start())">test play mid</a> |
+
   Time Signature <select id="input_time_signature">
     <option value="44">4 / 4</option>
     <option value="34">3 / 4</option>
@@ -21,7 +28,7 @@
   Enter Chord Progression
   <div id="input_chord">
     <input autofocus id="chords" type="text" placeholder="G D Em C G" class="chord_box"/></td>
-    <button id="" class="btn btn-primary btn-xs" disabled="disabled"><b>Go</b></button>
+    <button id="btn_go" class="btn btn-primary btn-xs"><b>Go</b></button>
   </div>
   <br>
   <div class="blank_line"></div>

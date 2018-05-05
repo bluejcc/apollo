@@ -23,11 +23,21 @@ class Apollo(FlaskView):
 
 
 class ApolloApi(FlaskView):
-    route_base = '/gen_midi/'
+    route_base = '/generate/<format_type>'
 
-    def get(self):
-        file_name = 'a.mid'
-        return send_file(os.path.join(app.config['AUDIO_DIR'], file_name), as_attachment=True)
+    def get(self, format_type):
+        if format_type == 'mid':
+            chords = request.args.get('chords')
+            if not chords:
+                return None
+            chords = chords.split(' ')
+            file_name = 'a.mid'
+            return send_file(os.path.join(app.config['AUDIO_DIR'], file_name), as_attachment=True)
+        if format_type == 'musicxml':
+            return None
+        app.logger.warning('Request with unknown format_type: {}'.format(format_type))
+        return None
+
 
 
 Apollo.register(bp_apollo)
