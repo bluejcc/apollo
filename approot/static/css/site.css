@@ -1,5 +1,26 @@
+.midplayer {
+    margin: auto;
+    width: 135px;
+}
+
+.select_time_signature {
+    padding: 3px;
+    width: 60px;
+    display: inline;
+}
+
 .chord_box {
     width: 250px;
+    display: inline;
+}
+
+
+#btn_go {
+    margin-top: -2px;
+}
+
+#result {
+    display: none;
 }
 
 #footer {
@@ -22,4 +43,12 @@ html, body {
 
 .blank_line {
     margin: 12px;
+}
+
+.navbar-header {
+    background-color: #FF3800;
+}
+
+.well {
+    background-color: #FFFCF8;
 }
