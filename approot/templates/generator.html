@@ -8,11 +8,11 @@
 
 {% block script_extra %}
 <script src="{{ url_for('static', filename='js/bootstrap-switch.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/inc/jasmid.js') }}"></script>
-<script src="{{ url_for('static', filename='js/inc/shim.js') }}"></script>
-<script src="{{ url_for('static', filename='js/inc/midi.js') }}"></script>
 <script src="{{ url_for('static', filename='js/inc/vexflow.musicxml.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/generator.js') }}"></script>
+<script src="{{ url_for('static', filename='js/inc/wildwebmidi.js') }}"></script>
+<script src="{{ url_for('static', filename='js/inc/midiplayer.js') }}"></script>
+
 
 {% endblock script_extra%}
 
@@ -30,22 +30,21 @@
   <div class="form-row">
     <label for="chords">Chord Progression</label><br>
     <input autofocus id="chords" type="text" placeholder="G D Em C G" class="chord_box form-control"/>&nbsp;
-    <button id="btn_go" class="btn btn-primary"><b>Go</b></button>
+    <button id="btn_go" class="btn btn-danger"><b>Go</b></button>
   </div>
 </div>
 <br>
 <div class="blank_line"></div>
+<div class="well_head"><sup>Enjoy!</sup></div>
 <div class="well" id="result">
-  <strong>Enjoy!</strong>
-  <div class="midplayer_wrapper">
+  <br>
   <div class="midplayer">
-    <br>
-    <button id="btn_play" type="button" class="btn btn-primary"><strong>&nbsp;Play&nbsp;</strong></button>
-    <button id="btn_pause" type="button" class="btn btn-info">Pause</button>
-  </div>
+    <div id="player">
+      <button id="btn_play" type="button" class="btn btn-danger">
+        <strong>&nbsp;Play&nbsp;</strong></button>&nbsp;
+    </div>
   </div>
   <div class="music_xml_viewer" style="padding-bottom: 5pt"></div>
 </div>
-
 
 {% endblock content%}
