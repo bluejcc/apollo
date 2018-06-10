@@ -30,12 +30,23 @@
 
 #btn_play {
   margin-top: -7px;
+  margin-left: 13px;
   display: inline-block;
   background-color: #ff5600;
 }
 
 #result {
   display: none;
+}
+
+#input_loop {
+  display: inline-block;
+  width: 160px;
+  float:right;
+}
+
+#player {
+  display: inline-block;
 }
 
 #footer {

@@ -1,10 +1,3 @@
-var midiUpdate = function(time) {
-    console.log(time);
-}
-var midiStop = function() {
-    $("#btn_play").removeAttr("disabled");
-}
-
 $(function () {
     var midiOutput = "";
 
@@ -76,8 +69,16 @@ $(function () {
     $("#player").midiPlayer({
         color: "#FF5600",
         //onUpdate: midiUpdate,
-        onStop: midiStop,
-        width: 250
+        onStop: function() {
+            if ($("#loop").prop("checked")) {
+                $("#player").midiPlayer.play(midiOutput);
+            } else {
+                $("#btn_play").removeAttr("disabled");
+            }
+        },
+        width: 220
     });
+
+    $("[name='loop-checkbox']").bootstrapSwitch();
 
 });
