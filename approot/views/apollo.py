@@ -29,16 +29,20 @@ class ApolloApi(FlaskView):
     generator = MusicGenerator()
 
     def get(self, format_type):
+        chords = request.args.get('chords')
+        chords = chords.replace('+',' ')
+        self.generator.set_audio_dir(os.path.join('approot',
+                                                  app.config['AUDIO_DIR']))
+        self.generator.set_cfg({'chord_list': chords})
         if format_type == 'mid':
-            chords = request.args.get('chords')
-            if not chords:
-                return None
-            chords = chords.split(' ')
-            file_name = 'a.mid'
-            return send_file(os.path.join(app.config['AUDIO_DIR'], file_name), as_attachment=True)
+            file_name = 'output.mid'
+            self.generator.get_mid(file_name)
+            return send_file(os.path.join(app.config['AUDIO_DIR'],
+                                          file_name), as_attachment=True)
         if format_type == 'musicxml':
             return self.generator.get_xml()
-        app.logger.warning('Request with unknown format_type: {}'.format(format_type))
+        app.logger.warning(
+            'Request with unknown format_type: {}'.format(format_type))
         return None
 
 

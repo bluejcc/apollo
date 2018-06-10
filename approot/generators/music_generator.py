@@ -2,12 +2,39 @@
 '''
 
 import datetime
+import os
 import xml.dom.minidom
 from xml.etree.ElementTree import Element, SubElement, tostring as xml_to_string
 
 import music21
 
 class MusicGenerator(object):
+    NOTES_IN_CHORDS = {
+        'C': 'C,E,G',
+        'Cm': 'C,Eb,G',
+        'Db': 'Db,F,Ab',
+        'Dbm': 'Db,E,Ab',
+        'D': 'D,F#,A',
+        'Dm': 'D,F,A',
+        'Eb': 'Eb,G,Bb',
+        'Ebm': 'Eb,Gb,Bb',
+        'E': 'E,G#,B',
+        'Em': 'E,G,B',
+        'F': 'F,A,C',
+        'Fm': 'F,Ab,C',
+        'Gb': 'Gb,Bb,Db',
+        'Gbm': 'Gb,A,Db',
+        'G': 'G,B,D',
+        'Gm': 'G,Bb,D',
+        'Ab': 'Ab,C,Eb',
+        'Abm': 'Ab,B,Eb',
+        'A': 'A,C#,E',
+        'Am': 'A,C,E',
+        'Bb': 'Bb,D,F',
+        'Bbm': 'Bb,Db,F',
+        'B': 'B,D#,F#',
+        'Bm': 'B,D,F#',
+    }
     def __init__(self):
         # Set some default configurations.
         self._cfg = {
@@ -16,11 +43,15 @@ class MusicGenerator(object):
             'chord_list': 'C F G C',
             'style': 'arpeggio',
             'instrument': 'Piano',
+            'clef': 'G2',
         }
         self._xml = None
 
+    def set_audio_dir(self, audio_dir):
+        self.audio_dir = audio_dir
+
     def set_cfg(self, cfg):
-        self._cfg = cfg
+        self._cfg.update(cfg)
         self._xml = None
 
     def get_xml(self):
@@ -28,9 +59,9 @@ class MusicGenerator(object):
             self._generate_xml()
         return xml_to_string(self._xml, 'utf-8')
 
-    def get_mid(self):
+    def get_mid(self, file_name):
         stream = music21.converter.parseData(self.get_xml(), format='musicxml')
-        stream.write('midi', 'output.mid')
+        stream.write('midi', os.path.join(self.audio_dir, file_name))
 
     def _generate_xml(self):
         title = self._cfg.get('title', 'Untitled')
@@ -73,7 +104,6 @@ class MusicGenerator(object):
         #--- tmp
 
         measure_cnt = 0
-        NOTES = {'C': 'C,E,G', 'F': 'F,A,C', 'G': 'G,B,D'}
         for chord in self._cfg['chord_list'].split(' '):
             measure_cnt += 1
             measure = SubElement(part, 'measure')
@@ -85,27 +115,35 @@ class MusicGenerator(object):
             SubElement(time, 'beats').text = '4'
             SubElement(time, 'beat-type').text = '4'
             clef = SubElement(attributes, 'clef')
-            SubElement(clef, 'sign').text = 'G'
-            SubElement(clef, 'line').text = '2'
+            SubElement(clef, 'sign').text = self._cfg['clef'][0]
+            SubElement(clef, 'line').text = self._cfg['clef'][1]
             SubElement(clef, 'clef-octave-change').text = '-1'
             staff_details = SubElement(attributes, 'staff-details')
             SubElement(staff_details, 'staff-lines').text = '5'
-            notes_in_chord = NOTES[chord].split(',')
-            self._add_quarter_note(measure, notes_in_chord[0], 2)
-            self._add_quarter_note(measure, notes_in_chord[0], 3)
-            self._add_quarter_note(measure, notes_in_chord[1], 3)
-            self._add_quarter_note(measure, notes_in_chord[2], 3)
+            notes = self.NOTES_IN_CHORDS[chord].split(',')
+            self._add_quarter_note(measure, notes[0], 2)
+            self._add_quarter_note(measure, notes[0], 3)
+            self._add_quarter_note(measure, notes[1], 3)
+            self._add_quarter_note(measure, notes[2], 3)
 
     def _add_quarter_note(self, measure, step, octave):
+        s2 = ''
+        if len(step) == 2:
+            s1,s2 = step[0], step[1]
+        else:
+            s1 = step
         note = SubElement(measure, 'note')
         pitch = SubElement(note, 'pitch')
-        SubElement(pitch, 'step').text = step
+        SubElement(pitch, 'step').text = s1
+        if s2:
+            SubElement(pitch, 'alter').text = '1' if s2 == '#' else '-1'
         SubElement(pitch, 'octave').text = str(octave)
         SubElement(note, 'duration').text = '1'
         SubElement(note, 'voice').text = '1'
         SubElement(note, 'type').text = 'quarter'
+        if s2:
+            SubElement(note, 'accidental').text = 'sharp' if s2 == '#' else 'flat'
         SubElement(note, 'staff').text = '1'
-
 
 if __name__ == '__main__':
     gen = MusicGenerator()
